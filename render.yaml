@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: anime_recommender
+    runtime: python-3.11.9  # Changed from 3.12.3 to match your local version
+    env: python
+    buildCommand: pip install -r requirements.txt  # Explicit build command
+    startCommand: gunicorn app:app  # Update with your actual entry point
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
