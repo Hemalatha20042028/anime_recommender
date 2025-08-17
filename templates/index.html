@@ -1,0 +1,292 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anime Recommendation System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Righteous&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: #fff;
+        }
+        
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+            text-align: center;
+        }
+        
+        h1 {
+            font-family: 'Righteous', cursive;
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            color: #fdbb2d;
+            text-shadow: 0 0 10px rgba(253, 187, 45, 0.5);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: #ddd;
+        }
+        
+        .search-box {
+            display: flex;
+            margin: 30px 0;
+        }
+        
+        #anime-search {
+            flex: 1;
+            padding: 15px 20px;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 50px 0 0 50px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            outline: none;
+        }
+        
+        #anime-search::placeholder {
+            color: #aaa;
+        }
+        
+        .suggestions {
+            background: white;
+            border-radius: 0 0 10px 10px;
+            max-height: 200px;
+            overflow-y: auto;
+            text-align: left;
+            display: none;
+            position: absolute;
+            width: calc(100% - 40px);
+            z-index: 100;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .suggestions div {
+            padding: 10px 20px;
+            color: #333;
+            cursor: pointer;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .suggestions div:hover {
+            background: #f0f0f0;
+        }
+        
+        button {
+            padding: 15px 30px;
+            background: linear-gradient(45deg, #fdbb2d, #b21f1f);
+            color: white;
+            border: none;
+            border-radius: 0 50px 50px 0;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+        
+        .feature-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .feature-card h3 {
+            color: #fdbb2d;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+        
+        .feature-card p {
+            color: #ddd;
+            font-size: 0.95rem;
+        }
+        
+        .stats {
+            margin-top: 30px;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+        
+        .stat {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 15px;
+            margin: 10px;
+            min-width: 150px;
+        }
+        
+        .stat h3 {
+            font-size: 2rem;
+            color: #fdbb2d;
+        }
+        
+        .stat p {
+            color: #ddd;
+        }
+        
+        footer {
+            margin-top: 30px;
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .search-box {
+                flex-direction: column;
+            }
+            
+            #anime-search {
+                border-radius: 50px;
+                margin-bottom: 10px;
+            }
+            
+            button {
+                border-radius: 50px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Anime Recommender</h1>
+        <p class="subtitle">Discover your next favorite anime based on content similarity</p>
+        
+        <form action="/recommend" method="POST">
+            <div class="search-container">
+                <div class="search-box">
+                    <input type="text" id="anime-search" name="anime_name" placeholder="Enter anime name..." autocomplete="off" required>
+                    <button type="submit">Find Recommendations</button>
+                </div>
+                <div class="suggestions" id="suggestions"></div>
+            </div>
+        </form>
+        
+        <div class="features">
+            <div class="feature-card">
+                <h3>Content-Based</h3>
+                <p>Recommends anime based on genre, type, and episode similarity</p>
+            </div>
+            <div class="feature-card">
+                <h3>Comprehensive</h3>
+                <p>Powered by a database of 12,000+ anime titles</p>
+            </div>
+            <div class="feature-card">
+                <h3>Intelligent</h3>
+                <p>Uses machine learning to find the best matches</p>
+            </div>
+        </div>
+        
+        <div class="stats">
+            <div class="stat">
+                <h3>12,294</h3>
+                <p>Anime Titles</p>
+            </div>
+            <div class="stat">
+                <h3>100+</h3>
+                <p>Genres</p>
+            </div>
+            <div class="stat">
+                <h3>5</h3>
+                <p>Personalized Recommendations</p>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Built with Flask and Scikit-learn | Anime Recommendation System</p>
+        </footer>
+    </div>
+    
+    <script>
+        const animeNames = {{ anime_names | tojson }};
+        const searchInput = document.getElementById('anime-search');
+        const suggestionsDiv = document.getElementById('suggestions');
+        
+        searchInput.addEventListener('input', function() {
+            const inputVal = this.value.toLowerCase();
+            if (inputVal.length < 2) {
+                suggestionsDiv.style.display = 'none';
+                return;
+            }
+            
+            const filtered = animeNames.filter(name => 
+                name.toLowerCase().includes(inputVal)
+            ).slice(0, 10);
+            
+            if (filtered.length > 0) {
+                suggestionsDiv.innerHTML = filtered.map(name => 
+                    `<div onclick="selectSuggestion('${name}')">${name}</div>`
+                ).join('');
+                suggestionsDiv.style.display = 'block';
+            } else {
+                suggestionsDiv.style.display = 'none';
+            }
+        });
+        
+        function selectSuggestion(name) {
+            searchInput.value = name;
+            suggestionsDiv.style.display = 'none';
+        }
+        
+        document.addEventListener('click', function(e) {
+            if (e.target !== searchInput) {
+                suggestionsDiv.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!-- templates/error.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error - Anime Recommender</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Righteous&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: #fff;
+        }
+        
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+            text-align: center;
+        }
+        
+        h1 {
+            font-family: 'Righteous', cursive;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #fdbb2d;
+            text-shadow: 0 0 10px rgba(253, 187, 45, 0.5);
+        }
+        
+        .error-message {
+            background: rgba(178, 31, 31, 0.3);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 30px 0;
+            font-size: 1.2rem;
+            border: 1px solid #b21f1f;
+        }
+        
+        .anime-name {
+            font-weight: bold;
+            color: #fdbb2d;
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            background: linear-gradient(45deg, #fdbb2d, #b21f1f);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Oops! Something went wrong</h1>
+        
+        <div class="error-message">
+            <p>We couldn't find <span class="anime-name">{{ anime_name }}</span> in our database.</p>
+            <p>{{ message }}</p>
+        </div>
+        
+        <p>Please try a different anime title or check the spelling.</p>
+        
+        <a href="/" class="btn">Try Again</a>
+    </div>
+</body>
+</html>

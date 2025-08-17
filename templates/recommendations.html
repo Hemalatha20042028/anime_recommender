@@ -1,0 +1,172 @@
+<!-- templates/recommendations.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recommendations - Anime Recommender</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Righteous&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: #fff;
+        }
+        
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+        
+        h1 {
+            font-family: 'Righteous', cursive;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #fdbb2d;
+            text-shadow: 0 0 10px rgba(253, 187, 45, 0.5);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: #ddd;
+        }
+        
+        .anime-name {
+            background: rgba(253, 187, 45, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 1.4rem;
+            border: 1px solid #fdbb2d;
+        }
+        
+        .recommendations {
+            margin: 30px 0;
+        }
+        
+        .recommendation {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px 20px;
+            margin: 10px 0;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        
+        .recommendation:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateX(5px);
+        }
+        
+        .number {
+            background: #fdbb2d;
+            color: #000;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 15px;
+            font-weight: bold;
+        }
+        
+        .buttons {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            background: linear-gradient(45deg, #fdbb2d, #b21f1f);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin: 0 10px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .anime-name {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Your Recommendations</h1>
+        <p class="subtitle">Based on your selection:</p>
+        
+        <div class="anime-name">
+            {{ anime_name }}
+        </div>
+        
+        <div class="recommendations">
+            {% for anime in recommendations %}
+            <div class="recommendation">
+                <div class="number">{{ loop.index }}</div>
+                <div class="name">{{ anime }}</div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="buttons">
+            <a href="/" class="btn">Search Again</a>
+            <a href="/" class="btn btn-secondary">Home</a>
+        </div>
+    </div>
+</body>
+</html>
